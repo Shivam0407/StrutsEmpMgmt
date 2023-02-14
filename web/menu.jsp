@@ -22,6 +22,7 @@
                     <li><a href="#" class="nav-link px-2 text-white">Show Employee</a></li>
                     <li><a href="searchEmployee.jsp" class="nav-link px-2 text-white">Search Employee</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">Update Employee</a></li>
+                    <li><a href="FetchUrl" class="nav-link px-2 text-white">Rest Api</a></li>
                     <li><a href="LogOut" class="nav-link px-2 text-white">Sign Out</a></li>
                 </ul>
 
@@ -35,12 +36,11 @@
                     <a href="login.jsp">
                         <button type="button" class="btn btn-outline-light me-2" >Login</button>
                     </a>
-                    <a href="signup.jsp">
+                    <a href="PreSignUp">
                         <button type="button" class="btn btn-warning">Sign-up</button>
                     </a>
                     <%
-                        }
-                    else {%>
+                    } else {%>
 
                     <a href="Logout">
                         <button type="button" class="btn btn-outline-light me-2" >Log Out</button>

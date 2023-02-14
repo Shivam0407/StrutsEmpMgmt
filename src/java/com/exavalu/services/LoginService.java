@@ -17,50 +17,89 @@ import java.sql.SQLException;
  * @author Avijit Chattopadhyay
  */
 public class LoginService {
-    
+
     public static LoginService loginService = null;
-    
-    private LoginService(){}
-    
-    public static LoginService getInstance()
-    {
-        if(loginService==null)
-        {
+
+    private LoginService() {
+    }
+
+    public static LoginService getInstance() {
+        if (loginService == null) {
             return new LoginService();
-        }
-        else
-        {
+        } else {
             return loginService;
         }
     }
-    
-    public boolean doLogin(User user)
-    {
+
+    public boolean doLogin(User user) {
         boolean success = false;
-        
+
         String sql = "Select * from users where emailAddress=? and password=?";
-        
+
         try {
             Connection con = JDBCConnectionManager.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
-            
-            System.out.println("LoginService :: "+ps);
-            
+
+            System.out.println("LoginService :: " + ps);
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
+
+            if (rs.next()) {
                 success = true;
             }
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-        
+
         return success;
     }
-    
+
+    public boolean doSignUp(User emp) {
+        boolean success = false;
+
+        Connection con = JDBCConnectionManager.getConnection();
+        String sql = "INSERT INTO employeedb.users\n"
+                + "(emailAddress,\n"
+                + "password,\n"
+                + "firstName,\n"
+                + "lastName,\n"
+                + "status,\n"
+                + "phoneNumber,\n"
+                + "addressLine1,\n"
+                + "addressLine2,\n"
+                + "countryId,\n"
+                + "stateId,\n"
+                + "districtId)VALUES (?, ?, ?, ?, ?,?,?, ?, ?, ?, ?);";
+
+        try {
+            //System.out.println("entering try block");
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, emp.getEmail());
+            preparedStatement.setString(2, emp.getPassword());
+            preparedStatement.setString(3, emp.getFirstName());
+            preparedStatement.setString(4, emp.getLastName());
+            preparedStatement.setInt(5, 1);
+            preparedStatement.setString(6, emp.getPhoneNumber());
+            preparedStatement.setString(7, emp.getAddressLine1());
+            preparedStatement.setString(8, emp.getAddressLine2());
+            preparedStatement.setInt(9, emp.getCountryId());
+            preparedStatement.setInt(10, emp.getStateId());
+            preparedStatement.setInt(11, emp.getDistrictId());
+
+            preparedStatement.executeUpdate();
+            System.out.println("LoginService :: " + preparedStatement);
+
+            success = true;
+
+            //con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return success;
+    }
+
 }

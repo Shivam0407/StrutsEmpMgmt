@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
     <head>
@@ -16,45 +16,100 @@
 
         <!-- Custom styles for this template -->
         <link href="css/signin.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.3.js" 
+                            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" 
+                    crossorigin="anonymous"></script>
+        <script>
 
+            function fetchContent(selectedId, targetId)
+                    {
+ //            alert("'#"+selectedId.name+"'");
+                           
+                                    $.ajax({
+                                            url: 'PreSignUp',
+                                            data: {
+                                                    [selectedId]: $("#" + selectedId).val()
+                                            },
+                                            success: function (responseText) {
+ //                        alert(responseText);
+                                                    $("#" + targetId).html(responseText);
+                                            }
+                                    });
+                            
+                    }
+
+
+        </script> 
     </head>
 
     <body class="text-center">
-
-
         <main class="form-signin w-100 m-auto">
-            <form action="SignUp" method="post">
-                <img class="mb-4" src="images/flower-logo.jpg" alt="" width="200" height="200">
-                <h1 class="h3 mb-3 fw-normal">Please provide below information</h1>
+            <form action=""  method="get" id="signupForm">
+                <img class="mb-4" src="images/image.png" alt="exavalu logo" width="180" height="100">
+                <h1 class="h3 mb-3 fw-normal">Create Account</h1>
 
                 <div class="form-floating">
-                    <input name = "email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="${User.email}">
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" value="${User.password}">
                     <label for="floatingPassword">Password</label>
                 </div>
                 <div class="form-floating">
-                    <input name="firstName" type="text" class="form-control" id="firstName" placeholder="first name">
+                    <input type="text" class="form-control" id="firstName" placeholder="first name" name="firstName" value="${User.firstName}">
                     <label for="firstName">First Name</label>
                 </div>
                 <div class="form-floating">
-                    <input name="lastName" type="text" class="form-control" id="lastName" placeholder="last name">
+                    <input type="text" class="form-control" id="lastName" placeholder="last name" name="lastName" value="${User.lastName}">
                     <label for="firstName">Last Name</label>
                 </div>
-    
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" value="${User.phoneNumber}">
+                    <label for="firstName">Phone Number</label>
+                </div>
 
-<!--                <div class="checkbox mb-3">
+                <div class="form-floating">
+                    <input name="addressLine1" type="text" class="form-control" id="addressLine1" placeholder="Address Line1"  value="${User.addressLine1}">
+                    <label for="firstName">Address Line1</label>
+                </div>
+                <div class="form-floating">
+                    <input name="addressLine2" type="text" class="form-control" id="addressLine2" placeholder="Address Line2" value="${User.addressLine2}">
+                    <label for="firstName">Address Line2</label>
+                </div>
+                <div class="form-floating">
+                    <select name="countryId" class="form-select" id="countryId" onchange="fetchContent('countryId', 'stateId')">
+                        <option value="0">Select a country</option>
+                        <c:forEach var="country" items="${CountryList}">
+                            <option value= ${country.getCountryId()}<c:if test="${country.getCountryId()==User.getCountryId()}"> selected </c:if>>  ${country.getCountryName()}  </option>
+                        </c:forEach>
+                    </select>                         
+                </div>
+
+
+                <div class="form-floating">
+                    <select name="stateId" class="form-select" id="stateId" onchange="fetchContent('stateId','districtId')">
+                        <option value="0">Select a state</option>
+                      
+                    </select>
+                </div>
+                <div class="form-floating">
+                    <select name="districtId" class="form-select" id="districtId" >
+                        <option value="0">Select a city</option>
+
+                    </select>
+                </div>
+
+                <div class="checkbox mb-3">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
-                </div>-->
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+                </div>
+                <button class="w-100 btn mt-2 btn-sm btn-primary" style="background-color: blue; border: none" type="submit">Sign up</button>
                 <a href="landingPage.jsp">
-                    <button type="button" class="w-100 btn btn-lg btn-warning">Cancel</button>
+                    <button type="button" class = "w-100 btn mt-2 btn-sm btn-secondary" style="background-color: blueviolet" type="submit">Cancel</button>
                 </a>
-                <p class="mt-5 mb-3 text-muted">&copy; 2017?2022</p>
+                <p class="mt-5 mb-3 text-muted">&copy; 2017@2023</p>
             </form>
         </main>
 

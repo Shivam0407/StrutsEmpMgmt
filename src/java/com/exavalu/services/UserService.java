@@ -4,11 +4,11 @@
  */
 package com.exavalu.services;
 
-
 import com.exavalu.models.User;
 import com.exavalu.utils.JDBCConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -16,28 +16,38 @@ import java.sql.SQLException;
  * @author Avijit Chattopadhyay
  */
 public class UserService {
-    
+
     public static UserService userService = null;
-    
-    private UserService(){}
-    
-    public static UserService getInstance()
-    {
-        if(userService==null)
-        {
+
+    private UserService() {
+    }
+
+    public static UserService getInstance() {
+        if (userService == null) {
             return new UserService();
-        }
-        else
-        {
+        } else {
             return userService;
         }
     }
-    
+
     public boolean doSignUp(User emp) {
+      
+          boolean result = false;
         boolean success=false;
-        
-        Connection con=JDBCConnectionManager.getConnection();
-         String sql = "INSERT INTO employeedb.users (emailAddress, password, firstName, lastName, status) VALUES (?, ?, ?, ?, ?);";
+
+        Connection con = JDBCConnectionManager.getConnection();
+        String sql = "INSERT INTO employeedb.users\n"
+                + "(emailAddress,\n"
+                + "password,\n"
+                + "firstName,\n"
+                + "lastName,\n"
+                + "status,\n"
+                + "phoneNumber,\n"
+                + "addressLine1,\n"
+                + "addressLine2,\n"
+                + "countryId,\n"
+                + "stateId,\n"
+                + "districtId)VALUES (?, ?, ?, ?, ?,?,?, ?, ?, ?, ?);";
 
         try {
             //System.out.println("entering try block");
@@ -47,24 +57,35 @@ public class UserService {
             preparedStatement.setString(3, emp.getFirstName());
             preparedStatement.setString(4, emp.getLastName());
             preparedStatement.setInt(5, 1);
-            
+            preparedStatement.setString(6, emp.getPhoneNumber());
+            preparedStatement.setString(7, emp.getAddressLine1());
+            preparedStatement.setString(8, emp.getAddressLine2());
+            preparedStatement.setInt(9, emp.getCountryId());
+            preparedStatement.setInt(10, emp.getStateId());
+            preparedStatement.setInt(11, emp.getDistrictId());
 
-            preparedStatement.executeUpdate();
+             int rows = preparedStatement.executeUpdate();
+
+            if (rows==1) {
+                
+                result = true;
+            }
+             con.close();
              System.out.println("LoginService :: "+preparedStatement);
 
-           
-                success=true;
             
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            if(rs.next())
+            {
+                success = true;
+            }
+
             //con.close();
-
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-
         return success;
+    }
 }
-}
-    
-    

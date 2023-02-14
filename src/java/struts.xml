@@ -24,7 +24,7 @@
         </action> 
          <action name="SignUp" class="com.exavalu.models.User" method="doSignUp">
             <result name="SUCCESS">login.jsp</result>
-            <result name="FAILURE">signup.jsp</result>
+           
         </action>
         <action name="EditEmployee" class="com.exavalu.models.Employee" method="editEmployee">
             <result name="SUCCESS">editemployee.jsp</result>
@@ -33,6 +33,22 @@
         <action name="SaveEmployee" class="com.exavalu.models.Employee" method="UpdateService">
             <result name="SUCCESS">employeeDetails.jsp</result>
             <result name="FAILURE">editemployee.jsp</result>
+        </action> 
+        <action name="Location" class="com.exavalu.models.Location" method="getLocation">
+            <result name="SUCCESS">newpage.jsp</result>
+            
+        </action>    
+        <action name="PreSignUp" class="com.exavalu.models.User" method="doPreSignUp">
+            <result name="STATELIST">statelist.jsp</result>
+             <result name="DISTRICT">districtlist.jsp</result>
+            <result name="SUCCESS">signup.jsp</result>
+            
         </action>     
+       
+        <!--consuming rest Api info and stroing it in db-->
+         <action name="FetchUrl" class="com.exavalu.models.Transcript" method="doFetchUrl">
+            <result name="SUCCESS">savinginfofromurl.jsp</result>
+            <result name="FAILURE">savinginfofromurl.jsp</result>
+        </action>
     </package>
 </struts>
