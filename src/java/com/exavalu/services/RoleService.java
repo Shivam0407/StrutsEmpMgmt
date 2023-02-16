@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -41,7 +42,8 @@ public class RoleService {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+          Logger log = Logger.getLogger(EmployeeService.class.getName());
+            log.error("Error Message:" +ex.getMessage());
         }
 
         return roleLIst;
